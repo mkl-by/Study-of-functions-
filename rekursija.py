@@ -111,6 +111,18 @@ def print_stars(N: int) -> str:
     return '' if not N else f'*\n{print_stars(N-1)}'
 
 
+def func(L: list, res=[]) -> list:
+    """ No additional checks """
+    if len(L) == 1: return res
+    if L:
+        x = min(L)
+        res.append(L.pop(L.index(x)))
+        func(L, res)
+    return res
+
+
+
+
 def febonachi(N: int) -> int:
     """
         0,1,1,2,3,5,8,13,21,...., где N количество чисел Фeбоначи которых нужно найти
@@ -126,6 +138,18 @@ def febonachi(N: int) -> int:
         return [0, 1]
     res = febonachi(N-1)  # при N=2 -> [0,1]
     res.append(res[-1]+res[-2])
+    return res
+
+def permutel(seq):
+    # Тасование любой последовательности
+    if not seq:
+        return [seq]
+    else:
+        res = []
+        for i in range(len(seq)):
+            rest = seq[:i] + seq[i+1:]
+            for x in permutel(rest):
+                res.append(seq[i:i+1] + x)
     return res
 
 
@@ -158,3 +182,9 @@ if __name__ == '__main__':
 
     print('***** Фeбоначи *****')
     print(febonachi(25))
+
+    print('***** fun sort by choice *****')
+    print('sorted:', func([43, 6, 2, 5, 8, 32, 9]))
+
+    print('***** Перемешивание последовательностей *****')
+    print(permutel('ab'))
