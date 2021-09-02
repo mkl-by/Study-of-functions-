@@ -12,6 +12,12 @@ def nonempty(L):
 
 
 def ssum(L: list) ->int:
+    """
+    ssum([1,2,3]) - 6
+    ssum([2,3])  - 5
+    ssum([3])    - 3
+    ssum([])     - 0
+    """
     return 0 if not L else L[0]+ssum(L[1:])
 
 
@@ -153,11 +159,37 @@ def permutel(seq):
     return res
 
 
+def element_list_number(L: list, x=0) -> int:
+    """без вложений, количество элементов в цикле"""
+    if L:
+        x += 1
+        return element_list_number(L[1:], x)
+    return x
+
+
+def binary_search(L: list, x) ->int:
+    """
+        бинарный поиск без дополнительных проверок, правильнее будет
+        искать осуществлять проверку по последней цифре в разделенном списке,
+        если цифра в середине > x ищем справа, иначе слева
+    """
+    if len(L) != 1:
+        lst = sorted(L)
+        l = int(len(lst)/2)
+        print(l)
+        if x in lst[:l]:
+            lst = lst[:l]
+        else:
+            lst = lst[l:]
+        return binary_search(lst, x)
+    return L
+
+
 if __name__ == '__main__':
     L = [1, 2, 3]
     L1 = [1, [2, [3, 4], 5], 6, [7, 8]]
     print(mysum(L))
-    print(ssum(L))
+    print('ssum: ', ssum(L))
 
     print(list_sum(L1))
     print(list_sum([1, [2, [3, [4, [5]]]]]))
@@ -188,3 +220,9 @@ if __name__ == '__main__':
 
     print('***** Перемешивание последовательностей *****')
     print(permutel('ab'))
+
+    print('***** Находим количество элементов в списке *****')
+    print(element_list_number(L))
+
+    print('***** Бинарный поиск *****')
+    print(binary_search([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9))
