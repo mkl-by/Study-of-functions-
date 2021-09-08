@@ -1,7 +1,8 @@
 # косвенная рекурсия
 
 def mysum(L):
-    if not L: return 0
+    if not L:
+        return 0
     return nonempty(L)
 
 
@@ -11,7 +12,7 @@ def nonempty(L):
 # прямая рекурсия
 
 
-def ssum(L: list) ->int:
+def ssum(L: list) -> int:
     """
     ssum([1,2,3]) - 6
     ssum([2,3])  - 5
@@ -22,13 +23,13 @@ def ssum(L: list) ->int:
 
 
 def list_sum(L: list) -> int:
-        tot = 0
-        for i in L:
-            if not isinstance(i, list):
-                tot += i
-            else:
-                tot += list_sum(i)
-        return tot
+    tot = 0
+    for i in L:
+        if not isinstance(i, list):
+            tot += i
+        else:
+            tot += list_sum(i)
+    return tot
 
 
 ''' факториал
@@ -94,7 +95,7 @@ def pars_str1(stroka: str) -> str:
     return ''
 
 
-def print_star(N: int) -> None:
+def print_star(N: int) -> int:
     print("*"*N)
     if N:
         print_star(N-1)
@@ -119,7 +120,8 @@ def print_stars(N: int) -> str:
 
 def func(L: list, res=[]) -> list:
     """ No additional checks """
-    if len(L) == 1: return res
+    if len(L) == 1:
+        return res
     if L:
         x = min(L)
         res.append(L.pop(L.index(x)))
@@ -127,9 +129,7 @@ def func(L: list, res=[]) -> list:
     return res
 
 
-
-
-def febonachi(N: int) -> int:
+def febonachi(N):
     """
         0,1,1,2,3,5,8,13,21,...., где N количество чисел Фeбоначи которых нужно найти
         febonachi(5) - [0,1,1,2,3,5]
@@ -145,6 +145,7 @@ def febonachi(N: int) -> int:
     res = febonachi(N-1)  # при N=2 -> [0,1]
     res.append(res[-1]+res[-2])
     return res
+
 
 def permutel(seq):
     # Тасование любой последовательности
@@ -167,7 +168,7 @@ def element_list_number(L: list, x=0) -> int:
     return x
 
 
-def binary_search(L: list, x) ->int:
+def binary_search(L: list, x) -> list:
     """
         бинарный поиск без дополнительных проверок, правильнее будет
         искать осуществлять проверку по последней цифре в разделенном списке,
@@ -176,13 +177,34 @@ def binary_search(L: list, x) ->int:
     if len(L) != 1:
         lst = sorted(L)
         l = int(len(lst)/2)
-        print(l)
         if x in lst[:l]:
             lst = lst[:l]
         else:
             lst = lst[l:]
         return binary_search(lst, x)
     return L
+
+
+def speed_sorted(L: list) -> list:
+    """
+    быстрая сортировка
+    in [1, 54, 36, 89, 4, 32, 6]
+
+    1 -> [] - [54, 36, 89, 4, 32, 6]
+    54 -> [36, 4, 32, 6] - [89]
+    36 -> [4, 32, 6] - []
+    4 -> [] - [32, 6]
+    32 -> [6] - []
+
+    out [1, 4, 6, 32, 36, 54, 89]
+    """
+    if len(L) < 2:
+        return L
+    a = L[0]
+    left = [i for i in L[1:] if i <= a]
+    right = [i for i in L[1:] if i > a]
+    print(left, a, right)
+    return speed_sorted(left)+[a]+speed_sorted(right)
 
 
 if __name__ == '__main__':
@@ -226,3 +248,6 @@ if __name__ == '__main__':
 
     print('***** Бинарный поиск *****')
     print(binary_search([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9))
+
+    print('***** Быстрая сортировка *****')
+    print(speed_sorted([3, 5, 2, 1, 4]))
